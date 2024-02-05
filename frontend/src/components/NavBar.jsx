@@ -1,15 +1,21 @@
 import React from "react";
 
-function NavBar() {
+function Button(props) {
     return (
-        <div className="flex justify-center pt-6">
-            <nav className="inline-flex justify-center items-center bg-zinc-800 rounded-full ">
-                <button className="font-bold text-sm text-zinc-400 px-4 py-2 mx-5">support</button>
-                <div className="font-bold text-xl text-red-600 px-4 py-2">AIPS</div>
-                <button className="font-bold text-sm text-zinc-400 px-4 py-2 mx-5">login</button>
+        <button className="font-bold text-sm text-zinc-300 px-4 py-1 mx-5 hover:bg-zinc-500 rounded-full transition duration-300 ease-in-out w-20 overflow-hidden whitespace-nowrap">
+            {props.children}
+        </button>
+    );
+  }
+
+export default function NavBar() {
+    return (
+        <div className="flex justify-center mt-6">
+            <nav className="inline-flex justify-center items-center bg-zinc-800 rounded-full">
+                <Button>Support</Button>
+                <div className="font-bold text-xl text-red-500 px-4 py-2 select-none">AIPS</div>
+                <Button>Login</Button>
             </nav>
         </div>
     );
 }
-
-export default NavBar;
