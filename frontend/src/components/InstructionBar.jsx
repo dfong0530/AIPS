@@ -1,5 +1,4 @@
 import React from "react";
-
 function Button(props) {
     return (
         <button className="font-bold text-sm text-gray-light px-4 py-1 mx-5 hover:bg-gray-bg rounded-full transition duration-300 ease-in-out w-20 overflow-hidden whitespace-nowrap">
@@ -7,8 +6,7 @@ function Button(props) {
         </button>
     );
   }
-
-export default function NavBar() {
+export default function InstructionBar() {
     return (
         <div className="flex justify-center mt-6">
             <nav className="inline-flex justify-center items-center bg-gray-default rounded-full">
