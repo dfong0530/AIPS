@@ -1,51 +1,53 @@
+const eBay = require('ebay-node-api'); // Assume an eBay API SDK
 const fs = require('fs');
-const csv = require('csv-parser');
-const request = require('request');
+const csvParser = require('csv-parser'); // npm package to parse CSV
 
-const API_ENDPOINT = 'https://api.ebay.com/ws/api.dll';
-const USER_TOKEN = 'YOUR_USER_TOKEN_HERE';
+// Your eBay API credentials
+const eBayApi = new eBay({
+    clientID: 'EkSzWVMAhsfXEGr8wgryhKscVB6o4dRU1IRyZGMJ26E',
+    clientSecret: 'lV_bwv1FIdf1rhtNYWCR-3LLd2vtzWc5tPQE_SOO69LnKr2rt7-4_ikUZS0YrqNO',
+    body: {
+        grant_type: 'client_credentials',
+        scope: 'https://api.ebay.com/oauth/api_scope'
+    }
+});
 
-function createEbayListing(item) {
-  const xmlRequest = `<?xml version="1.0" encoding="utf-8"?>
-<AddItemRequest xmlns="urn:ebay:apis:eBLBaseComponents">
-  <RequesterCredentials>
-    <eBayAuthToken>${USER_TOKEN}</eBayAuthToken>
-  </RequesterCredentials>
-  <ErrorLanguage>en_US</ErrorLanguage>
-  <WarningLevel>High</WarningLevel>
-  <Item>
-    <Title>${item.Title}</Title>
-    <Description>${item.Description}</Description>
-    <PrimaryCategory>
-      <CategoryID>${item.CategoryID}</CategoryID>
-    </PrimaryCategory>
-    <StartPrice>${item.Price}</StartPrice>
-    <ConditionID>${item.ConditionID}</ConditionID>
-    <Country>US</Country>
-    <Currency>USD</Currency>
-    <DispatchTimeMax>3</DispatchTimeMax>
-    <ListingDuration>Days_7</ListingDuration>
-    <ListingType>FixedPriceItem</ListingType>
-    <PaymentMethods>PayPal</PaymentMethods>
-    <PayPalEmailAddress>seller@example.com</PayPalEmailAddress>
-    <PostalCode>95125</PostalCode>
-    <Quantity>1</Quantity>
-    <ReturnPolicy>
-      <ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>
-      <RefundOption>MoneyBack</RefundOption>
-      <ReturnsWithinOption>Days_30</ReturnsWithinOption>
-      <Description>If not satisfied, return the item for refund.</Description>
-      <ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>
-    </ReturnPolicy>
-    <ShippingDetails>
-      <ShippingType>Flat</ShippingType>
-      <ShippingServiceOptions>
-        <ShippingServicePriority>1</ShippingServicePriority>
-        <ShippingService>USPSMedia</ShippingService>
-        <ShippingServiceCost>2.50</ShippingServiceCost>
-      </ShippingServiceOptions>
-    </ShippingDetails>
-    <Site>US</Site>
-  </Item>
-</AddItemRequest>`;
-}
+const createListing = (item) => {
+    eBayApi.addFixedPriceItem({
+        title: item.Title,
+        description: item.Description,
+        price: item.Price,
+        category_id: item.CategoryID,
+        condition_id: item.ConditionID,
+        quantity: item.Quantity,
+        location: {
+            country: item.Country,
+            postal_code: item.PostalCode,
+            location: item.Location
+        },
+        shipping_details: {
+            shipping_service: item.ShippingService,
+            shipping_cost: item.ShippingCost
+        }
+    }).then((response) => {
+        console.log('Listing created:', response);
+    }).catch((error) => {
+        console.error('Error creating listing:', error);
+    });
+};
+
+const listItemsFromCSV = (csvFilePath) => {
+    const items = [];
+
+    fs.createReadStream(csvFilePath)
+        .pipe(csvParser())
+        .on('data', (row) => {
+            items.push(row);
+        })
+        .on('end', () => {
+            console.log('CSV file successfully processed');
+            items.forEach(createListing);
+        });
+};
+
+listItemsFromCSV('./items.csv');

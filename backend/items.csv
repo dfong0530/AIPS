@@ -1,0 +1,4 @@
+Title,Description,Price,CategoryID,ConditionID,Quantity,Location,Country,PostalCode,ShippingService,ShippingCost
+Vintage Leather Jacket,"Brown vintage leather jacket, size M. Excellent condition.",150.00,3009,3000,1,New York,US,10001,USPSFirstClass,10.00
+Antique Silver Watch,"Antique silver pocket watch from the 19th century. Fully functional.",250.00,14324,2750,1,San Francisco,US,94107,USPSPriority,8.00
+Canvas Art Print,"Modern canvas art print, 24x36 inches. Perfect for home decor.",50.00,550,1000,1,Chicago,US,60601,USPSFirstClass,12.00
