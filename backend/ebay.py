@@ -11,7 +11,7 @@ headers = {
 }
 
 item_data = {
-    "sku": "your-sku-123",
+    "sku": "sku-123",
     "offer": {
         "categoryId": "12345",
         "format": "FIXED_PRICE", 
