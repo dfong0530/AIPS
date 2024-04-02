@@ -41,6 +41,29 @@ header = {
 }
 
 
+def get_my_listings(api, limit=10, offset=0):
+
+    try:
+
+        response = api.sell.inventory.getInventoryItems(limit=limit, offset=offset)
+        listings = []
+        
+        if 'inventoryItems' in response:
+            for item in response['inventoryItems']:
+                listings.append({
+                    'sku': item['sku'],
+                    'offerId': item['offerId'],
+                    'title': item['title'],
+                    'price': item['price'],
+                    'quantity': item['quantity'],
+                    'status': item['status']
+                })
+        return listings
+    except Error as e:
+        return f"Failed to fetch own listings: {e.detail}"
+
+
+
 def get_current_listings(api, search_query, sort_order='price', limit=5):
     try:
         search_results = api.buy.browse_search(q=search_query, sort=sort_order, limit=limit)

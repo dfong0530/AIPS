@@ -1,11 +1,13 @@
 from ebay_rest import API, Error
 import datetime
+import os
+from dotenv import load_dotenv
 
 application = {
-    "app_id": "placeholder-placeholder-PRD-placeholder-placeholder",
-    "cert_id": "PRD-placeholder-placeholder-placeholder-placeholder-placeholder",
-    "dev_id": "placeholder-placeholder-placeholder-placeholder-placeholder",
-    "redirect_uri": "placeholder-placeholder-placeholder-placeholder"
+    "app_id": os.getenv('CLIENT_ID'),
+    "cert_id": os.getenv('CLIENT_SECRET'),
+    "dev_id": os.getenv('DEV_ID'),
+    "redirect_uri": "https://google.com/"
 }
 
 user = {
@@ -14,11 +16,10 @@ user = {
     "scopes": [
         "https://api.ebay.com/oauth/api_scope",
         "https://api.ebay.com/oauth/api_scope/sell.inventory",
+
         "https://api.ebay.com/oauth/api_scope/sell.marketing",
         "https://api.ebay.com/oauth/api_scope/sell.account",
-        "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
-        "https://api.ebay.com/oauth/api_scope/sell.inventory",
-        ""
+        "https://api.ebay.com/oauth/api_scope/sell.fulfillment"
     ],
     "refresh_token": "production-refresh_token",
     "refresh_token_expiry": "production-token_expiry"
@@ -28,18 +29,14 @@ header = {
     "accept_language": "en-US",
     "affiliate_campaign_id": "",
     "affiliate_reference_id": "",
-    "content_language": "en-CA",
-    "country": "CA",
-    "currency": "CAD",
+    "content_language": "en-US",
+    "country": "US",
+    "currency": "USD",
     "device_id": "",
-    "marketplace_id": "EBAY_ENCA",
-    "zip": ""
+    "marketplace_id": "EBAY_US",
+    "zip": "20500"
 }
 
-key_pair = {
-    "private_key": "placeholder-placeholder-placeholder-placeholder-placeholder-plac",
-    "signing_key_id": "placeholder-placeholder-placeholder-"
-}
 
 def refresh_authentication(api):
     now = datetime.datetime.now()
