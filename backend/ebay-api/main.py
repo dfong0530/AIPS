@@ -71,6 +71,28 @@ key_pair = {
 #         return None
 
 
+
+def get_current_listings(api, search_query, sort_order='price', limit=5):
+
+    try:
+        search_results = api.buy.browse_search(q=search_query, sort=sort_order, limit=limit)
+        listings = []
+        for record in search_results:
+            if 'item' in record:
+                item = record['item']
+                listings.append({
+                    'item_id': item['itemId'],
+                    'title': item['title'],
+                    'price': item.get('price', {}).get('value', 'N/A'),
+                    'currency': item.get('price', {}).get('currency', 'N/A'),
+                    'item_url': item['itemWebUrl']
+                })
+        return listings
+    except Error as e:
+        return f"Failed to fetch current listings: {e.detail}"
+
+
+
 def main():
 
     # access_token = refresh_access_token(user_credentials)
