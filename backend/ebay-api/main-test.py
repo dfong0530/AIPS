@@ -21,8 +21,8 @@ user = {
         "https://api.ebay.com/oauth/api_scope/sell.account",
         "https://api.ebay.com/oauth/api_scope/sell.fulfillment"
     ],
-    "refresh_token": "production-refresh_token",
-    "refresh_token_expiry": "production-token_expiry"
+    "refresh_token": "",
+    "refresh_token_expiry": ""
 }
 
 header = {
@@ -38,22 +38,22 @@ header = {
 }
 
 
-def refresh_authentication(api):
-    now = datetime.datetime.now()
-    token_expiry = datetime.datetime.strptime(user['refresh_token_expiry'], "%Y-%m-%d %H:%M:%S")
+# def refresh_authentication(api):
+#     now = datetime.datetime.now()
+#     token_expiry = datetime.datetime.strptime(user['refresh_token_expiry'], "%Y-%m-%d %H:%M:%S")
     
-    if now >= token_expiry:
-        try:
-            new_access_token, new_expiry = api.refresh_access_token(user['refresh_token'])
+#     if now >= token_expiry:
+#         try:
+#             new_access_token, new_expiry = api.refresh_access_token(user['refresh_token'])
             
-            user['access_token'] = new_access_token
-            user['refresh_token_expiry'] = new_expiry
+#             user['access_token'] = new_access_token
+#             user['refresh_token_expiry'] = new_expiry
             
-            print("Authentication token refreshed successfully.")
-        except Exception as e:
-            print(f"Failed to refresh authentication token: {e}")
-    else:
-        print("Authentication token does not need to be refreshed yet.")
+#             print("Authentication token refreshed successfully.")
+#         except Exception as e:
+#             print(f"Failed to refresh authentication token: {e}")
+#     else:
+#         print("Authentication token does not need to be refreshed yet.")
 
 def main():
     try:
@@ -62,7 +62,7 @@ def main():
         print(f'Initialization Error {error.number}: {error.reason} - {error.detail}.')
         return
     
-    refresh_authentication(api)
+    #refresh_authentication(api)
 
     # TEST CASE #1
     
